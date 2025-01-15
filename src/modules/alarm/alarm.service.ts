@@ -38,16 +38,13 @@ export class AlarmService {
   }
 
   async getAlaram(userId: number) {
-    const list=await this.alarmRepository.find({
-      where:{
-        userrId:userId
-      }
-    })
+    const list=await this.alarmRepository.findBy({userrId:userId})
     if(!list){
       return{
         message:"شما هنو یادآوری را ایجاد نکرده اید"
       }
     }else{
+     
       return{
         list
       }
