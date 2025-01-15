@@ -3,7 +3,8 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
-import { AdminStatus, UserStatus } from "../enum/user.enum";
+
+import { AlarmEntity } from "src/modules/alarm/entity/alarm.entity";
 
 
 
@@ -17,8 +18,10 @@ export class UserEntity {
    last_name:string
    @Column({unique:true})
    username:string
-   @Column({unique:true,nullable:true})
+   @Column({unique:true})
    userId:number
+   @OneToMany(()=>AlarmEntity,alarm=>alarm.user)
+   alarm:AlarmEntity[]
 
   
 }

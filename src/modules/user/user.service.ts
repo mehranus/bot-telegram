@@ -6,9 +6,7 @@ import { DeepPartial, Repository } from "typeorm";
 import { CreatUserDto } from "./dto/user.dto";
 
 
-import { REQUEST } from "@nestjs/core";
-import { Request } from "express";
-import { AdminStatus, UserStatus } from "./enum/user.enum";
+
 
 
 @Injectable()
