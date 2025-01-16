@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeorm.config';
 import { AlarmModule } from './modules/alarm/alarm.module';
 import { AlarmEntity } from './modules/alarm/entity/alarm.entity';
+import { BotService } from './bot.service';
+import { FallService } from './fall.service';
 
 
 
@@ -12,7 +14,7 @@ import { AlarmEntity } from './modules/alarm/entity/alarm.entity';
 @Module({
 
   imports: [TypeOrmModule.forRoot(typeOrmConfig()),UserModule,AlarmModule],
-  providers: [AppService],
+  providers: [FallService],
 
 
 })

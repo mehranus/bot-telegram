@@ -25,3 +25,18 @@ export class UserEntity {
 
   
 }
+@Entity("userfal")
+export class UserFalEntity {
+   @PrimaryGeneratedColumn('increment')
+   id:number
+   @Column()
+   name:string
+   @Column({nullable:true})
+   date:string
+   @Column({nullable:true})
+   love:string
+   @Column({unique:true})
+   username:string
+   @Column({unique:true})
+   userId:number 
+}

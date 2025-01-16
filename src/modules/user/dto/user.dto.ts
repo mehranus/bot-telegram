@@ -17,3 +17,18 @@ export class CreatUserDto{
 
  
 }
+export class FallUserDto{
+ 
+  name:string
+  love:string
+
+  date:string
+
+  username:string
+  
+
+  userId:number
+
+
+ 
+}
