@@ -31,9 +31,20 @@ export class UserFalEntity {
    id:number
    @Column()
    name:string
-   @Column({nullable:true})
+   @Column()
    date:string
-   @Column({nullable:true})
+   @Column({unique:true})
+   username:string
+   @Column({unique:true})
+   userId:number 
+}
+@Entity("userfallove")
+export class UserFalLoveEntity {
+   @PrimaryGeneratedColumn('increment')
+   id:number
+   @Column()
+   name:string
+   @Column()
    love:string
    @Column({unique:true})
    username:string

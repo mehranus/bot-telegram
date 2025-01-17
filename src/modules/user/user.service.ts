@@ -1,9 +1,9 @@
 import { BadGatewayException, BadRequestException, ConflictException, Inject, Injectable, NotFoundException, Scope, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UserEntity, UserFalEntity } from "./entity/user.entity";
+import { UserEntity, UserFalEntity, UserFalLoveEntity } from "./entity/user.entity";
 import { DeepPartial, Repository } from "typeorm";
 
-import { CreatUserDto, FallUserDto } from "./dto/user.dto";
+import { CreatUserDto, FallLoveDto, FallUserDto } from "./dto/user.dto";
 import { fortunes } from "./db/day.db";
 import { loveFortunes } from "./db/love.db";
 
@@ -16,6 +16,7 @@ export class UserService{
   constructor(
     @InjectRepository(UserEntity) private readonly userRepository:Repository<UserEntity>,
     @InjectRepository(UserFalEntity) private readonly fallRepository:Repository<UserFalEntity>,
+    @InjectRepository(UserFalLoveEntity) private readonly fallloveRepository:Repository<UserFalLoveEntity>,
 
   ){}
 
@@ -49,20 +50,25 @@ export class UserService{
     }
     
   }
-  async createFalLove(createDto:FallUserDto){
-    const {date,name,userId,username}=createDto
-    const user=await this.fallRepository.findOne({where:{userId}})
+  async createFalLove(createDto:FallLoveDto){
+    
+    const {love,name,userId,username}=createDto
+   
+    let user=await this.fallloveRepository.findOne({where:{userId}})
     if(!user){
-      let uss= this.fallRepository.create({date,name,userId,username})
-      uss=await this.fallRepository.save(uss)
-      const fall=this.generateLoveFortune(uss.name,uss.date)
+      user= this.fallloveRepository.create({name,love,userId,username})
+      user=await this.fallloveRepository.save(user)
+      const fall=this.generateLoveFortune(user.name,user.love)
       
       return{
         status:201,
         fall
       }
     }else{
-      const fall=this.generateLoveFortune(user.name,user.date)
+      user.name=name
+      user.love=love
+      await this.fallloveRepository.save(user)
+      const fall=this.generateLoveFortune(user.name,user.love)
       return{
         status:200,
         fall
