@@ -164,7 +164,7 @@ export class FallService implements OnModuleInit {
 
           // ارسال پیام فال روزانه
           await ctx.reply(
-            `🌟 فال روزانه شما:\n\nسلام ${fall.name} عزیز!\n` +
+            `🌟 فال روزانه شما:\n\n${fall.name} عزیز!\n` +
             `${fall.fortune}\n` +
             `منتظر روزهای بهتر باشید. همیشه فرصت‌های جدید در پیش است! 🌞`,
             Markup.inlineKeyboard([
@@ -180,8 +180,65 @@ export class FallService implements OnModuleInit {
       }
     });
 
+    this.bot.action("OPTION_2",async (ctx)=>{
+      await ctx.reply(
+        `✨ به فال حافظ خوش آمدی! ✨
+📜 اول نیت کن...
+🌸 چشم‌هات رو ببند، به چیزی که دلت می‌خواد فکر کن...
+🎭 حالا آماده‌ای؟`,
+        {
+          parse_mode: 'Markdown',
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: '🔮 بگیر فال منو! ✨', callback_data: 'faal_hafez' }]
+            ]
+          }
+        }
+      );
+      
+      
+      
+
+    // انتقال به مرحله 2
+      
+
+    })
+
+    this.bot.action('faal_hafez',async (ctx)=>{
+      const {category,content,text}=await this.userService.crateHafez()
+      const processingMessage = await ctx.reply('⏳ در حال پردازش... لطفاً چند ثانیه صبر کنید.');
+
+      // ایجاد تایمر ۵ ثانیه‌ای
+      setTimeout(async () => {
+        // حذف پیام "در حال پردازش..."
+        await ctx.deleteMessage(processingMessage.message_id);
+
+        // ارسال پیام فال روزانه
+        await ctx.reply(
+          `✨ **فال شما:** ✨
+  
+📝  فال:
+${text}
+        
+📖 توضیحات:
+${content}
+        
+🏷️${category}`,
+          Markup.inlineKeyboard([
+            [Markup.button.callback('🔙 بازگشت به منوی اصلی', 'main_menu')]
+          ])
+        );
+        
+
+        // حذف وضعیت کاربر از لیست
+     
+      }, 3500); // 5000 میلی‌ثانیه = 5 ثانیه
+      await processingMessage;
+    })
+
     // شنیدن پیام‌های متنی (برای دریافت ورودی‌ها)
     this.bot.on("text", async (ctx) => {
+    
       const userId = ctx.from.id;
       const userState = userStates.get(userId);
       if (!userState) return;
@@ -213,7 +270,7 @@ export class FallService implements OnModuleInit {
 
           // ارسال پیام فال روزانه
           await ctx.reply(
-            `🌟 فال روزانه شما:\n\nسلام ${fall.name} عزیز!\n` +
+            `🌟 فال روزانه شما:\n\n${fall.name} عزیز!\n` +
             `${fall.fortune}\n` +
             `منتظر روزهای بهتر باشید. همیشه فرصت‌های جدید در پیش است! 🌞`,
             Markup.inlineKeyboard([
@@ -266,6 +323,7 @@ const processingMessage = await ctx.reply('💖 در حال پردازش فال 
           await ctx.reply(
             ` 
             فال عشق ${objectfall.name} و ${objectfall.love} 🌹❤️
+
 ✨ اینه که  
 ${fall.fortune} 💞🔮
 

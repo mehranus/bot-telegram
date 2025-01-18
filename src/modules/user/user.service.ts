@@ -6,6 +6,7 @@ import { DeepPartial, Repository } from "typeorm";
 import { CreatUserDto, FallLoveDto, FallUserDto } from "./dto/user.dto";
 import { fortunes } from "./db/day.db";
 import { loveFortunes } from "./db/love.db";
+import { fallHafez } from "./db/hafez.db";
 
 
 
@@ -77,6 +78,10 @@ export class UserService{
     
   }
 
+  async crateHafez(){
+    return await this.generateHafezFortune()
+  }
+
   async getUser(username:string){
     const user= await this.userRepository.findOneBy({username})
     return user
@@ -104,6 +109,15 @@ export class UserService{
       date,
       fortune:  fortunes[randomFortune],
     };
+  };
+   generateHafezFortune = () => {
+   
+  
+    // انتخاب یک فال تصادفی از لیست
+    const randomFortune = Math.floor(Math.random() * fallHafez.length);
+   
+  
+    return fallHafez[randomFortune];
   };
    generateLoveFortune = (name: string, love: string) => {
    
